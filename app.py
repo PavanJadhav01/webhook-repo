@@ -42,7 +42,7 @@ def events():
                     return "OK", 200
                 return jsonify({"error": "Invalid payload or missing event header"}), 400
 
-            # PDF Requirement: timestamp -> string(datetime)
+            # Format UTC timestamp into readable string format (e.g., 1st March 2026 - 07:18 PM UTC)
             # Format: "1st March 2026 - 07:18 PM UTC"
             now_utc = datetime.utcnow()
             day = now_utc.day
@@ -51,7 +51,7 @@ def events():
             else:
                 suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
             
-            # %#I removes leading zero on Windows (Python 3.x)
+            # Use platform-compatible hour formatting (Windows removes leading zero with %#I)
             ts_str = now_utc.strftime(f"{day}{suffix} %B %Y - %#I:%M %p UTC")
 
             event_data = {
