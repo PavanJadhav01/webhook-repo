@@ -1,96 +1,61 @@
-# 🚀 GitHub Webhook Receiver (Flask + MongoDB)
+# GitHub Webhook Receiver (Flask + MongoDB)
 
-A professional, real-time GitHub Webhook processing engine built with Flask and MongoDB Atlas. This application captures events directly from GitHub, stores them with precision, and displays a live activity feed.
+A Flask-based backend application that receives, processes, and stores GitHub webhook events in MongoDB Atlas. The application also provides a live dashboard to display recent activity.
 
----
+## ✨ Features
 
-## ✨ Key Features
+- Supports **push**, **pull_request**, and **merge** events
+- Stores structured event data in **MongoDB Atlas**
+- Displays real-time updates via **auto-refreshing dashboard**
+- Uses **environment variables** for secure configuration
+- Timestamps stored and displayed in **UTC**
 
-- **🔄 Real-time Events**: Supports `PUSH`, `PULL_REQUEST`, and `MERGE` actions.
-- **📊 MongoDB Integration**: Automated storage of event data in MongoDB Atlas.
-- **📅 Dynamic Timestamps**: Specialized UTC-to-String formatting for standardized audit logs.
-- **🖥️ Live Dashboard**: Modern, responsive frontend that automatically polls for updates.
-- **⚙️ Config-Driven**: Fully configured via environment variables for security and portability.
+## 🛠 Tech Stack
 
----
+- **Python 3.x**
+- **Flask**
+- **MongoDB Atlas**
+- **HTML + Vanilla JavaScript**
+- **python-dotenv**
 
-## 🛠️ Architecture & Tech Stack
+## 🚀 Setup
 
-- **Backend**: Python 3.x + [Flask](https://flask.palletsprojects.com/)
-- **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas)
-- **Environment**: [python-dotenv](https://pypi.org/project/python-dotenv/)
-- **Frontend**: HTML5 + Vanilla CSS + JavaScript (Auto-polling)
-
----
-
-## 🚀 Quick Start Guide
-
-### 1. Repository Setup
-Clone the project and navigate to the directory:
 ```bash
 git clone https://github.com/PavanJadhav01/webhook-repo.git
 cd webhook-repo
-```
-
-### 2. Environment Configuration
-Create a `.env` file in the root directory:
-```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/github_webhook_db
-```
-
-### 3. Installation & Execution
-```powershell
-# Create & Activate Virtual Environment
 python -m venv venv
-.\venv\Scripts\activate  # Windows
-
-# Install Dependencies
+venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-# Start the Engine
+### Create a .env file:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+```
+
+### Run the application:
+
+```bash
 python app.py
 ```
-The server will be live at `http://127.0.0.1:5000`.
 
----
+**Server runs at:** [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-## 🔗 Connecting GitHub Webhooks
+## 🔗 Webhook Configuration
 
-To receive live data, you must expose your local server using a tool like [ngrok](https://ngrok.com/):
-
-1. **Expose Port**: `ngrok http 5000`
-2. **Setup Webhook**: 
-   - Go to your GitHub Repo -> **Settings** -> **Webhooks**.
-   - **Payload URL**: `https://<your-ngrok-url>/events`
-   - **Content type**: `application/json`
-   - **Events**: Select **Pushes** and **Pull requests**.
-
----
+- **Expose locally using**: `ngrok http 5000`
+- **Payload URL**: `https://<ngrok-url>/webhook`
+- **Content Type**: `application/json`
+- **Events**: Push & Pull Request
 
 ## 📂 Project Structure
 
 ```text
 webhook-repo/
-├── app.py              # Core Flask application & Logic
-├── requirements.txt    # Python dependencies
-├── .env                # Secret environment variables
-├── .gitignore          # Repository exclusions
-└── templates/
-    └── index.html      # Live Dashboard UI
+├── app.py
+├── requirements.txt
+├── templates/
+├── .env.example
+└── README.md
 ```
-
----
-
-## 📝 MongoDB Event Schema
-
-| Field | Description |
-| :--- | :--- |
-| `author` | GitHub username of the actor |
-| `action` | The event type (`PUSH`, `PULL_REQUEST`, `MERGE`) |
-| `from_branch` | Source branch for PRs |
-| `to_branch` | Target/Destination branch |
-| `timestamp` | Formatted UTC string for human readability |
-
----
-
-Developed for technical assessment and webhook demonstration purposes.
