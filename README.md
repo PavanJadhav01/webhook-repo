@@ -1,71 +1,96 @@
-# GitHub Webhook Receiver
+# 🚀 GitHub Webhook Receiver (Flask + MongoDB)
 
-A minimal Flask application that receives, processes, and displays GitHub webhooks in real-time.
+A professional, real-time GitHub Webhook processing engine built with Flask and MongoDB Atlas. This application captures events directly from GitHub, stores them with precision, and displays a live activity feed.
 
-## Features
-- **Unified Endpoints**: `/events` and `/webhook` both handled.
-- **Event Support**: Full support for `PUSH`, `PULL_REQUEST`, and `MERGE` events.
-- **MongoDB Integration**: Stores structured event data in MongoDB Atlas.
-- **Live Dashboard**: Modern UI that polls for new events every 15 seconds.
-- **UTC Timestamps**: Timestamps are displayed in UTC as per technical specifications.
+---
 
-## Setup Instructions
+## ✨ Key Features
 
-### 1. Prerequisites
-- Python 3.x
-- MongoDB Atlas account (or local MongoDB)
-- [ngrok](https://ngrok.com/) for local exposure
+- **🔄 Real-time Events**: Supports `PUSH`, `PULL_REQUEST`, and `MERGE` actions.
+- **📊 MongoDB Integration**: Automated storage of event data in MongoDB Atlas.
+- **📅 Dynamic Timestamps**: Specialized UTC-to-String formatting for standardized audit logs.
+- **🖥️ Live Dashboard**: Modern, responsive frontend that automatically polls for updates.
+- **⚙️ Config-Driven**: Fully configured via environment variables for security and portability.
 
-### 2. Installation
-Clone the repository and enter the directory:
+---
+
+## 🛠️ Architecture & Tech Stack
+
+- **Backend**: Python 3.x + [Flask](https://flask.palletsprojects.com/)
+- **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas)
+- **Environment**: [python-dotenv](https://pypi.org/project/python-dotenv/)
+- **Frontend**: HTML5 + Vanilla CSS + JavaScript (Auto-polling)
+
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Repository Setup
+Clone the project and navigate to the directory:
 ```bash
+git clone https://github.com/PavanJadhav01/webhook-repo.git
 cd webhook-repo
 ```
 
-Create and activate a virtual environment:
-```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-source venv/bin/activate  # macOS/Linux
-```
-
-Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configuration
-Create a `.env` file in the root directory and add your MongoDB URI:
+### 2. Environment Configuration
+Create a `.env` file in the root directory:
 ```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/github_webhook_db?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/github_webhook_db
 ```
 
-### 4. Running the Server
-Start the Flask application:
-```bash
+### 3. Installation & Execution
+```powershell
+# Create & Activate Virtual Environment
+python -m venv venv
+.\venv\Scripts\activate  # Windows
+
+# Install Dependencies
+pip install -r requirements.txt
+
+# Start the Engine
 python app.py
 ```
-The server will run on `http://127.0.0.1:5000`.
+The server will be live at `http://127.0.0.1:5000`.
 
-### 5. Exposing with ngrok
-In a new terminal, run ngrok to expose your local port:
-```bash
-ngrok http 5000
+---
+
+## 🔗 Connecting GitHub Webhooks
+
+To receive live data, you must expose your local server using a tool like [ngrok](https://ngrok.com/):
+
+1. **Expose Port**: `ngrok http 5000`
+2. **Setup Webhook**: 
+   - Go to your GitHub Repo -> **Settings** -> **Webhooks**.
+   - **Payload URL**: `https://<your-ngrok-url>/events`
+   - **Content type**: `application/json`
+   - **Events**: Select **Pushes** and **Pull requests**.
+
+---
+
+## 📂 Project Structure
+
+```text
+webhook-repo/
+├── app.py              # Core Flask application & Logic
+├── requirements.txt    # Python dependencies
+├── .env                # Secret environment variables
+├── .gitignore          # Repository exclusions
+└── templates/
+    └── index.html      # Live Dashboard UI
 ```
-Copy the `https://...` forwarding URL provided by ngrok.
 
-### 6. GitHub Webhook Setup
-1. Go to your GitHub repository -> **Settings** -> **Webhooks** -> **Add webhook**.
-2. **Payload URL**: `https://<your-ngrok-url>/events`
-3. **Content type**: `application/json`
-4. **Events**: Select "Let me select individual events" and choose **Pushes** and **Pull requests**.
-5. Click **Add webhook**.
+---
 
-## MongoDB Schema
-Events are stored with the following structure:
-- `request_id`: Commit ID or PR ID
-- `author`: GitHub username
-- `action`: "PUSH", "PULL_REQUEST", or "MERGE"
-- `from_branch`: Source branch (if applicable)
-- `to_branch`: Target branch
-- `timestamp`: UTC datetime object (converted to IST for display)
+## 📝 MongoDB Event Schema
+
+| Field | Description |
+| :--- | :--- |
+| `author` | GitHub username of the actor |
+| `action` | The event type (`PUSH`, `PULL_REQUEST`, `MERGE`) |
+| `from_branch` | Source branch for PRs |
+| `to_branch` | Target/Destination branch |
+| `timestamp` | Formatted UTC string for human readability |
+
+---
+
+Developed for technical assessment and webhook demonstration purposes.
